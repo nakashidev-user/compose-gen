@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+{{- range $name, $service := .Services }}
+  {{ $name }}:
+    {{- if $service.Build }}
+    build:
+      context: {{ $service.Build.Context }}
+    {{- else if $service.Image }}
+    image: {{ $service.Image }}
+    {{- end }}
+    {{- if $service.Ports }}
+    ports:
+    {{- range $service.Ports }}
+      - "{{ . }}"
+    {{- end }}
+    {{- end }}
+    {{- if $service.Environment }}
+    environment:
+    {{- range $key, $value := $service.Environment }}
+      {{ $key }}: {{ $value }}
+    {{- end }}
+    {{- end }}
+    {{- if $service.Volumes }}
+    volumes:
+    {{- range $service.Volumes }}
+      - {{ . }}
+    {{- end }}
+    {{- end }}
+    {{- if $service.DependsOn }}
+    depends_on:
+    {{- range $service.DependsOn }}
+      - {{ . }}
+    {{- end }}
+    {{- end }}
+{{- end }}
+
+{{- if .Volumes }}
+volumes:
+{{- range $name, $config := .Volumes }}
+  {{ $name }}:
+{{- end }}
+{{- end }}
