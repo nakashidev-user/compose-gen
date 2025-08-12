@@ -171,14 +171,14 @@ cd compose-gen
 go mod tidy
 
 # 開発版を実行
-go run .
+go run cmd/main.go
 ```
 
 ### ビルド
 
 ```bash
 # ローカル環境用
-go build -o compose-gen .
+go build -o compose-gen ./cmd
 
 # クロスプラットフォーム用
 GOOS=linux GOARCH=amd64 go build -o compose-gen-linux-amd64 .
